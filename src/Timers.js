@@ -1,13 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCaretUp,
-  faCaretDown,
-  faPlay,
-  faPause,
-  faRedoAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 function Timers({ sessionTime, breakTime, handleTimerSet }) {
   return (

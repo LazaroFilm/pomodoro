@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import pomodoro from "./pomodoro.png";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCaretUp,
-  faCaretDown,
-  faPlay,
-  faPause,
-  faRedoAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faPause, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import "./App.css";
 import Clock from "./Clock";
 import Timers from "./Timers";
