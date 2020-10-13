@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import pomodoro from "./pomodoro.png";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,67 +10,78 @@ import {
   faRedoAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import "./App.css";
+import Clock from "./Clock";
+import Timers from "./Timers";
 
 function App() {
+  const [started, setStarted] = useState(false);
+  const [start, setStart] = useState(Date.now());
+  const [stop, setStop] = useState(Date.now());
+  const [elapsed, setElapsed] = useState(0);
+  const [sessionTime, setSessionTime] = useState(25);
+  const [breakTime, setBreakTime] = useState(5);
+  const [test, setTest] = useState("initial");
+
+  const handleTimerSet = (e) => {
+    switch (e) {
+      case "session-decrement":
+        return sessionTime > 0 && setSessionTime(sessionTime - 1);
+      case "session-increment":
+        return setSessionTime(sessionTime + 1);
+      case "break-decrement":
+        return breakTime > 0 && setSessionTime(sessionTime - 1);
+      case "break-increment":
+        return setBreakTime(breakTime + 1);
+      default:
+        break;
+    }
+  };
+
+  const handleStartStop = () => {
+    if (started) {
+      setTest("STOPPED");
+      setStarted(false);
+      handleStop();
+    } else {
+      setTest("STARTED");
+      setStarted(true);
+      handleStart();
+    }
+  };
+
+  const handleStart = () => {};
+
+  const handleStop = () => {
+    // let stopDate = Date.now();
+    // console.log(stopDate);
+    setStop(Date.now());
+    handleElapsed();
+  };
+
+  const handleElapsed = () => {
+    console.log(`start: ${start.getTime} stop: ${stop.getTime}`);
+    let elapsedDate = stop - start;
+    console.log(start);
+    console.log(stop);
+    console.log(Math.round(elapsedDate / 1000));
+    setElapsed(Math.round(elapsedDate / 1000));
+  };
+
   return (
     <div className="App">
-      <h1
-        id="pomodoro"
-        className="display-4 d-flex justify-content-center my-4"
-      >
+      {/* LOGO */}
+      <h1 id="pomodoro" className="d-flex justify-content-center my-2">
         <img id="pomodoro" src={pomodoro} alt="Pomodoro" />
-        {/* <span role="img" aria-label="tomato">
-          🍅 ⏲️
-        </span> */}
       </h1>
-      {/* <hr className="my-2" /> */}
-      <div className="d-flex flex-row justify-content-center">
-        <div id="session-block" className="p-2 text-center">
-          <div id="session-label" className="alert alert-primary" role="alert">
-            <div>Session:</div>
-            <div className="lead">
-              <div id="session-length" className="badge badge-primary lead">
-                25 min
-              </div>
-            </div>
-            <div
-              className="btn-group mt-2"
-              role="group"
-              aria-label="set session length"
-            >
-              <Button id="session-decrement" className="btn btn-primary">
-                <FontAwesomeIcon icon={faCaretDown} size="2x" />
-              </Button>
-              <Button id="session-increment" className="btn btn-primary">
-                <FontAwesomeIcon icon={faCaretUp} size="2x" />
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div id="break-block" className="p-2 text-center">
-          <div id="break-label" className="alert alert-success" role="alert">
-            <div>Break:</div>
-            <div className="lead">
-              <span id="break-length" className="badge badge-success">
-                5 min
-              </span>
-            </div>
-            <div
-              className="btn-group mt-2"
-              role="group"
-              aria-label="set break length"
-            >
-              <Button id="break-decrement" className="btn btn-success">
-                <FontAwesomeIcon icon={faCaretDown} size="2x" />
-              </Button>
-              <Button id="break-increment" className="btn btn-success">
-                <FontAwesomeIcon icon={faCaretUp} size="2x" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="jumbotron text-center mt-4 py-4">
+      {/* SET TIMERS */}
+      <Timers
+        sessionTime={sessionTime}
+        breakTime={breakTime}
+        handleTimerSet={handleTimerSet}
+      />
+
+      {/* JUMBOTRON */}
+      <div className="jumbotron text-center mt-2 py-3">
         <h1 className="display-2" id="time-left">
           25:00
         </h1>
@@ -83,7 +94,12 @@ function App() {
           role="group"
           aria-label="Play/Pause Reset"
         >
-          <Button className="btn btn-dark btn-lg" id="start_stop" role="button">
+          <Button
+            className="btn btn-dark btn-lg"
+            id="start_stop"
+            role="button"
+            onClick={() => handleStartStop()}
+          >
             <FontAwesomeIcon icon={faPlay} /> <FontAwesomeIcon icon={faPause} />
           </Button>{" "}
           <Button className="btn btn-secondary btn-lg" id="reset" role="button">
@@ -92,6 +108,10 @@ function App() {
         </div>
       </div>
       <p id="credits">by LazaroFilm - last update Oct 13 11:05 AM</p>
+      <p>{test}</p>
+      {/* <p>Start Time: {() => start}</p> */}
+      {/* <p>Stop Time: {() => stop.getTime}</p> */}
+      <p>Elapsed Time: {elapsed}</p>
     </div>
   );
 }
