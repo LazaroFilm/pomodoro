@@ -87,6 +87,7 @@ function App() {
           </a>
         </p>
       </div>
+      <p id="credits">by LazaroFilm</p>
     </div>
   );
 }

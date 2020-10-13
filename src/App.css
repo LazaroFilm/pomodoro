@@ -1,3 +1,9 @@
 #pomodoro {
   height: 90px;
 }
+
+#credits {
+  margin-left: 3%;
+  color: gray;
+  font-size: x-small;
+}
