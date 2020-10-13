@@ -74,20 +74,24 @@ function App() {
         <h1 className="display-2" id="time-left">
           25:00
         </h1>
-        <p className="lead alert badge-primary display-4" id="timer-label">
-          Work Hard!
-        </p>
+        <div className="lead alert badge-primary display-4" id="timer-label">
+          <strong>Work Hard!</strong>
+        </div>
         <hr className="my-3" />
-        <p className="lead">
-          <a className="btn btn-dark btn-lg" id="start_stop" role="button">
+        <div
+          className="btn-group mt-2 lead"
+          role="group"
+          aria-label="Play/Pause Reset"
+        >
+          <Button className="btn btn-dark btn-lg" id="start_stop" role="button">
             <FontAwesomeIcon icon={faPlay} /> <FontAwesomeIcon icon={faPause} />
-          </a>{" "}
-          <a className="btn btn-secondary btn-lg" id="reset" role="button">
+          </Button>{" "}
+          <Button className="btn btn-secondary btn-lg" id="reset" role="button">
             <FontAwesomeIcon icon={faRedoAlt} />
-          </a>
-        </p>
+          </Button>
+        </div>
       </div>
-      <p id="credits">by LazaroFilm</p>
+      <p id="credits">by LazaroFilm - last update Oct 13 11:05 AM</p>
     </div>
   );
 }
