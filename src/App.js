@@ -1,29 +1,32 @@
 import React, { useState } from "react";
 import pomodoro from "./pomodoro.png";
-import { Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faPause, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
+// import { Button } from "react-bootstrap";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faPlay, faPause, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import "./App.css";
 import Clock from "./Clock";
 import Timers from "./Timers";
 
 function App() {
   const [started, setStarted] = useState(false);
-  const [start, setStart] = useState(Date.now());
-  const [stop, setStop] = useState(Date.now());
-  const [elapsed, setElapsed] = useState(0);
   const [sessionTime, setSessionTime] = useState(25);
   const [breakTime, setBreakTime] = useState(5);
+
+  const [clockTime, setClockTime] = useState([25, 0]);
   const [test, setTest] = useState("initial");
 
   const handleTimerSet = (e) => {
     switch (e) {
       case "session-decrement":
-        return sessionTime > 0 && setSessionTime(sessionTime - 1);
+        if (sessionTime > 0) {
+          setSessionTime(sessionTime - 1);
+          setClockTime([clockTime[0] - 1, 0]);
+        }
+        break;
       case "session-increment":
         return setSessionTime(sessionTime + 1);
       case "break-decrement":
-        return breakTime > 0 && setSessionTime(sessionTime - 1);
+        return breakTime > 0 && setBreakTime(breakTime - 1);
       case "break-increment":
         return setBreakTime(breakTime + 1);
       default:
@@ -32,33 +35,66 @@ function App() {
   };
 
   const handleStartStop = () => {
-    if (started) {
-      setTest("STOPPED");
-      setStarted(false);
-      handleStop();
-    } else {
+    if (!started) {
       setTest("STARTED");
-      setStarted(true);
       handleStart();
     }
+    setStarted(!started);
+    console.log(started);
   };
-
-  const handleStart = () => {};
 
   const handleStop = () => {
-    // let stopDate = Date.now();
-    // console.log(stopDate);
-    setStop(Date.now());
-    handleElapsed();
+    console.log("STOP (in the name of love)");
   };
 
-  const handleElapsed = () => {
-    console.log(`start: ${start.getTime} stop: ${stop.getTime}`);
-    let elapsedDate = stop - start;
-    console.log(start);
-    console.log(stop);
-    console.log(Math.round(elapsedDate / 1000));
-    setElapsed(Math.round(elapsedDate / 1000));
+  const handleStart = () => {
+    console.log(clockTime);
+    let min = clockTime[0];
+    let sec = clockTime[1];
+    let keepGoing = true;
+    console.log(`${min}:${sec}`);
+    const countdown = () => {
+      keepGoing = !started;
+      console.log(`keepGoing: ${keepGoing}`);
+      // console.log("countdown");
+
+      // console.log(`${min}:${sec}`);
+      if (sec === 0) {
+        // console.log("tic");
+        min--;
+        sec = 10;
+        setClockTime([min, sec]);
+        console.log(`tic ${min}:${sec}`);
+      } else {
+        // console.log("toc");
+        sec--;
+        setClockTime([min, sec]);
+        console.log(`toc ${min}:${sec}`);
+      }
+
+      setTimeout(() => {
+        console.log(keepGoing);
+        if (keepGoing) {
+          countdown();
+        } else {
+          console.log("STOP!");
+          handleStop();
+        }
+      }, 1000);
+    };
+
+    setClockTime([sessionTime, 0]);
+    // console.log("about to while");
+    console.log("starting countdown");
+    setTimeout(() => {
+      countdown();
+    }, 1000);
+
+    // if (clockTime[0] === 0) {
+    //   console.log("THE END");
+    // } else {
+    //   countdown;
+    // }
   };
 
   return (
@@ -67,45 +103,20 @@ function App() {
       <h1 id="pomodoro" className="d-flex justify-content-center my-2">
         <img id="pomodoro" src={pomodoro} alt="Pomodoro" />
       </h1>
-      {/* SET TIMERS */}
+      {/* TIMERS */}
       <Timers
         sessionTime={sessionTime}
         breakTime={breakTime}
         handleTimerSet={handleTimerSet}
       />
 
-      {/* JUMBOTRON */}
-      <div className="jumbotron text-center mt-2 py-3">
-        <h1 className="display-2" id="time-left">
-          25:00
-        </h1>
-        <div className="lead alert badge-primary display-4" id="timer-label">
-          <strong>Work Hard!</strong>
-        </div>
-        <hr className="my-3" />
-        <div
-          className="btn-group mt-2 lead"
-          role="group"
-          aria-label="Play/Pause Reset"
-        >
-          <Button
-            className="btn btn-dark btn-lg"
-            id="start_stop"
-            role="button"
-            onClick={() => handleStartStop()}
-          >
-            <FontAwesomeIcon icon={faPlay} /> <FontAwesomeIcon icon={faPause} />
-          </Button>{" "}
-          <Button className="btn btn-secondary btn-lg" id="reset" role="button">
-            <FontAwesomeIcon icon={faRedoAlt} />
-          </Button>
-        </div>
-      </div>
+      {/* CLOCK */}
+      <Clock clockTime={clockTime} handleStartStop={handleStartStop} />
       <p id="credits">by LazaroFilm - last update Oct 13 11:05 AM</p>
       <p>{test}</p>
-      {/* <p>Start Time: {() => start}</p> */}
-      {/* <p>Stop Time: {() => stop.getTime}</p> */}
-      <p>Elapsed Time: {elapsed}</p>
+      <p>
+        {clockTime[0]}:{clockTime[1]}
+      </p>
     </div>
   );
 }
