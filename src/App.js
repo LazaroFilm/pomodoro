@@ -5,9 +5,7 @@ import Clock from "./Clock";
 import Timers from "./Timers";
 import reducer from "./reducer";
 
-function App() {
-  //TODO: useReducer below
-
+export default function App() {
   const initialState = {
     started: false,
     sessionTime: 25,
@@ -15,10 +13,7 @@ function App() {
     clockTime: [25, 0],
     test: "initial",
   };
-
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  // TODO: useReducer above
 
   return (
     <div className="App">
@@ -31,13 +26,11 @@ function App() {
 
       {/* CLOCK */}
       <Clock state={state} dispatch={dispatch} />
-      <p id="credits">by LazaroFilm - last update Oct 13 11:05 AM</p>
-      <p>{state.test}</p>
+      <p id="credits">by LazaroFilm - last update Oct 15 6:02 PM</p>
+      {/* <p>{state.test}</p>
       <p>
         {state.clockTime[0]}:{state.clockTime[1]}
-      </p>
+      </p> */}
     </div>
   );
 }
-
-export default App;

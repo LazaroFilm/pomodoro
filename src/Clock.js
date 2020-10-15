@@ -30,7 +30,12 @@ function Clock({ state, dispatch }) {
           >
             <FontAwesomeIcon icon={faPlay} /> <FontAwesomeIcon icon={faPause} />
           </Button>{" "}
-          <Button className="btn btn-secondary btn-lg" id="reset" role="button">
+          <Button
+            className="btn btn-secondary btn-lg"
+            id="reset"
+            role="button"
+            onClick={() => dispatch({ type: "reset" })}
+          >
             <FontAwesomeIcon icon={faRedoAlt} />
           </Button>
         </div>

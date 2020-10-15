@@ -11,8 +11,8 @@ function Timers({ state, dispatch }) {
           <div id="session-label" className="alert alert-primary" role="alert">
             <div>Session:</div>
             <div className="lead">
-              <div id="session-length" className="badge badge-primary lead">
-                {state.sessionTime} min
+              <div className="badge badge-primary">
+                <span id="session-length">{state.sessionTime}</span> min
               </div>
             </div>
             <div
@@ -41,9 +41,9 @@ function Timers({ state, dispatch }) {
           <div id="break-label" className="alert alert-success" role="alert">
             <div>Break:</div>
             <div className="lead">
-              <span id="break-length" className="badge badge-success">
-                {state.breakTime} min
-              </span>
+              <div className="badge badge-success">
+                <span id="break-length">{state.breakTime}</span> min
+              </div>
             </div>
             <div
               className="btn-group mt-2"
@@ -53,7 +53,7 @@ function Timers({ state, dispatch }) {
               <Button
                 id="break-decrement"
                 className="btn btn-success"
-                onClick={() => dispatch({ type: "break-increment" })}
+                onClick={() => dispatch({ type: "break-decrement" })}
               >
                 <FontAwesomeIcon icon={faCaretDown} size="2x" />
               </Button>
