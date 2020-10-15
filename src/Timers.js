@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretUp, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
-function Timers({ sessionTime, breakTime, handleTimerSet }) {
+function Timers({ state, dispatch }) {
   return (
     <>
       <div className="d-flex flex-row justify-content-center">
@@ -12,7 +12,7 @@ function Timers({ sessionTime, breakTime, handleTimerSet }) {
             <div>Session:</div>
             <div className="lead">
               <div id="session-length" className="badge badge-primary lead">
-                {sessionTime} min
+                {state.sessionTime} min
               </div>
             </div>
             <div
@@ -23,14 +23,14 @@ function Timers({ sessionTime, breakTime, handleTimerSet }) {
               <Button
                 id="session-decrement"
                 className="btn btn-primary"
-                onClick={() => handleTimerSet("session-decrement")}
+                onClick={() => dispatch({ type: "session-decrement" })}
               >
                 <FontAwesomeIcon icon={faCaretDown} size="2x" />
               </Button>
               <Button
                 id="session-increment"
                 className="btn btn-primary"
-                onClick={() => handleTimerSet("session-increment")}
+                onClick={() => dispatch({ type: "session-increment" })}
               >
                 <FontAwesomeIcon icon={faCaretUp} size="2x" />
               </Button>
@@ -42,7 +42,7 @@ function Timers({ sessionTime, breakTime, handleTimerSet }) {
             <div>Break:</div>
             <div className="lead">
               <span id="break-length" className="badge badge-success">
-                {breakTime} min
+                {state.breakTime} min
               </span>
             </div>
             <div
@@ -53,14 +53,14 @@ function Timers({ sessionTime, breakTime, handleTimerSet }) {
               <Button
                 id="break-decrement"
                 className="btn btn-success"
-                onClick={() => handleTimerSet("break-decrement")}
+                onClick={() => dispatch({ type: "break-increment" })}
               >
                 <FontAwesomeIcon icon={faCaretDown} size="2x" />
               </Button>
               <Button
                 id="break-increment"
                 className="btn btn-success"
-                onClick={() => handleTimerSet("break-increment")}
+                onClick={() => dispatch({ type: "break-increment" })}
               >
                 <FontAwesomeIcon icon={faCaretUp} size="2x" />
               </Button>

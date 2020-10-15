@@ -3,15 +3,15 @@ import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 
-function Clock({ clockTime, handleStartStop }) {
+function Clock({ state, dispatch }) {
   return (
     <div>
       <div className="jumbotron text-center mt-2 py-3">
         <h1 className="display-2" id="time-left">
-          {clockTime[0]}:
-          {clockTime[1].toString().length === 1
-            ? `0${clockTime[1]}`
-            : clockTime[1]}
+          {state.clockTime[0]}:
+          {state.clockTime[1].toString().length === 1
+            ? `0${state.clockTime[1]}`
+            : state.clockTime[1]}
         </h1>
         <div className="lead alert badge-primary display-4" id="timer-label">
           <strong>Work Hard!</strong>
@@ -26,7 +26,7 @@ function Clock({ clockTime, handleStartStop }) {
             className="btn btn-dark btn-lg"
             id="start_stop"
             role="button"
-            onClick={() => handleStartStop()}
+            onClick={() => dispatch({ type: "start-stop" })}
           >
             <FontAwesomeIcon icon={faPlay} /> <FontAwesomeIcon icon={faPause} />
           </Button>{" "}
