@@ -69,7 +69,7 @@ function reducer(state, action) {
     case "tic-toc":
       if (state.clockTime[1] === 0) {
         console.log(`TOC ${state.clockTime[0]} : ${state.clockTime[1]}`);
-        return { ...state, clockTime: [state.clockTime[0] - 1, 5] };
+        return { ...state, clockTime: [state.clockTime[0] - 1, 59] };
       } else {
         console.log(`TOC ${state.clockTime[0]} : ${state.clockTime[1]}`);
         return {
