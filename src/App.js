@@ -26,7 +26,7 @@ export default function App() {
       </h1>
       <Timers state={state} dispatch={dispatch} />
       <Clock state={state} dispatch={dispatch} />
-      <p id="credits">by LazaroFilm - last update Oct 116 4:43 PM</p>
+      <p id="credits">by LazaroFilm - last update Oct 16 4:43 PM</p>
       <p>hello</p>
       <p>{Start(state)}</p>
     </div>
