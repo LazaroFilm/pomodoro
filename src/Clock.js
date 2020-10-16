@@ -4,16 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 
 const StartStop = (state, dispatch) => {
-  const ticToc = setInterval(() => {
-    dispatch({ type: "tic-toc" });
-  }, 1000);
-
-  if (state.clockTime[1] === 0) {
-    state.clockTime = [state.clockTime[0] - 1, 59];
-    console.log(state.clockTime);
-    return { ...state };
+  var ticToc;
+  console.log(`the counter started? ${state.started}`);
+  if (!state.started) {
+    ticToc = setInterval(() => {
+      console.log(`the counter started? ${state.started}`);
+      dispatch({ type: "tic-toc" });
+    }, 1000);
   } else {
-    state.clockTime = [state.clockTime[0], state.clockTime[1] - 1];
+    clearInterval(ticToc);
   }
 };
 

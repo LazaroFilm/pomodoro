@@ -1,10 +1,9 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer } from "react";
 import pomodoro from "./pomodoro.png";
 import "./App.css";
 import Clock from "./Clock";
 import Timers from "./Timers";
 import reducer from "./reducer";
-// import { useEffect } from "react";
 
 export default function App() {
   const initialState = {
@@ -15,12 +14,10 @@ export default function App() {
     test: "initial",
   };
   const [state, dispatch] = useReducer(reducer, initialState);
-  useEffect(() => {
-    return () => {
-      // console.log(state.clockTime);
-      console.log(`CLOCK ${state.clockTime[0]} : ${state.clockTime[1]}`);
-    };
-  }, [state.clockTime]);
+
+  const Start = (state) => {
+    return state.started ? "STARTED" : "Stopped";
+  };
 
   return (
     <div className="App">
@@ -30,6 +27,8 @@ export default function App() {
       <Timers state={state} dispatch={dispatch} />
       <Clock state={state} dispatch={dispatch} />
       <p id="credits">by LazaroFilm - last update Oct 15 6:02 PM</p>
+      <p>hello</p>
+      <p>{Start(state)}</p>
     </div>
   );
 }
