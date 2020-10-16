@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+// import { useReducer } from "react";
 
 function reducer(state, action) {
   console.log(state);
@@ -55,41 +55,31 @@ function reducer(state, action) {
         clockTime: [25, 0],
         test: "initial",
       };
-    //! start stop
     case "start-stop":
       if (state.started) {
         console.log("stopping now 🛑");
+        clearInterval();
         return { ...state, started: false, test: "Stopping" };
       } else {
         console.log("starting now ⏲️");
-        // Countdown(state);
-        return { ...state, started: true, test: "Starting" };
+        console.log("keeps going? ");
+        console.log(state);
+        return { ...state, started: true, test: "starting" };
       }
-    case "one-second":
+    case "tic-toc":
       if (state.clockTime[1] === 0) {
-        console.log("zero sec");
-        return { ...state, clockTime: [state.clockTime[0] - 1, 59] };
+        console.log(`TOC ${state.clockTime[0]} : ${state.clockTime[1]}`);
+        return { ...state, clockTime: [state.clockTime[0] - 1, 5] };
       } else {
-        console.log("still counting down");
+        console.log(`TOC ${state.clockTime[0]} : ${state.clockTime[1]}`);
         return {
           ...state,
           clockTime: [state.clockTime[0], state.clockTime[1] - 1],
         };
       }
-
     default:
       throw new Error();
   }
 }
 
-const Countdown = (state) => {
-  console.log("Counting down");
-  setTimeout(() => {
-    console.log("TIME OUT");
-    console.log(state.clockTime);
-    // while (state.clockTime !== [0, 0]) {
-    // dispatch({ type: "one-second" });
-    // }
-  }, 1000);
-};
 export default reducer;
