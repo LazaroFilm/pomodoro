@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import pomodoro from "./pomodoro.png";
 import "./App.css";
 import Clock from "./Clock";
@@ -7,27 +7,30 @@ import reducer from "./reducer";
 
 export default function App() {
   const initialState = {
-    isRunning: "stop",
+    isRunning: "initial",
     sessionTime: 25,
     breakTime: 5,
     clockTime: [25, 0],
     test: "initial",
+    intervalID: "testing",
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const [intervalID, setInterID] = useState();
+
   useEffect(() => {
     console.log(`isRunning changed to: ${state.isRunning}`);
-    let ticToc;
-    console.log(`This is: ${ticToc}`);
+    console.log(`initial interval is: ${intervalID}`);
     if (state.isRunning === "start") {
-      ticToc = setInterval(() => {
-        console.log(`This is: ${ticToc}`);
+      let letintervalID = setInterval(() => {
+        console.log(`interval is: ${intervalID}`);
         console.log(`tic toc`);
         dispatch({ type: "tic-toc" });
       }, 1000);
-    } else {
+      setInterID(letintervalID);
+    } else if (state.isRunning === "stop") {
       console.log("clearInterval stop!");
-      clearInterval(ticToc);
+      clearInterval(intervalID);
     }
   }, [state.isRunning]);
 
