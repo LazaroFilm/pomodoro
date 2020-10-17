@@ -29,6 +29,13 @@ export default function App() {
     }
   }, [state.isRunning]);
 
+  useEffect(() => {
+    if (state.clockTime[0] <= 0 && state.clockTime[1] === 0) {
+      console.log(`DING DING DING!`);
+      clearInterval(intervalID);
+    }
+  }, [state.clockTime]);
+
   return (
     <div className="App">
       <h1 id="pomodoro" className="d-flex justify-content-center my-2">
