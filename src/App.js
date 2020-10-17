@@ -7,7 +7,7 @@ import reducer from "./reducer";
 
 export default function App() {
   const initialState = {
-    isRunning: "initial",
+    isRunning: "stop",
     sessionTime: 25,
     breakTime: 5,
     clockTime: [25, 0],
@@ -19,17 +19,12 @@ export default function App() {
   const [intervalID, setInterID] = useState();
 
   useEffect(() => {
-    console.log(`isRunning changed to: ${state.isRunning}`);
-    console.log(`initial interval is: ${intervalID}`);
     if (state.isRunning === "start") {
       let letintervalID = setInterval(() => {
-        console.log(`interval is: ${intervalID}`);
-        console.log(`tic toc`);
         dispatch({ type: "tic-toc" });
       }, 1000);
       setInterID(letintervalID);
     } else if (state.isRunning === "stop") {
-      console.log("clearInterval stop!");
       clearInterval(intervalID);
     }
   }, [state.isRunning]);
@@ -42,9 +37,6 @@ export default function App() {
       <Timers state={state} dispatch={dispatch} />
       <Clock state={state} dispatch={dispatch} />
       <p id="credits">by LazaroFilm - last update Oct 16 4:43 PM</p>
-      <p>hello</p>
-      <p>{state.test}</p>
-      {/* <p>{Start(state)}</p> */}
     </div>
   );
 }
