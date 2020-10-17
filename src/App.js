@@ -22,7 +22,7 @@ export default function App() {
   const [intervalID, setInterID] = useState();
 
   const [playRing] = useSound(PomodoroRing);
-  const [playTicking] = useSound(PomodoroTicking, { volume: 0.1 });
+  const [playTicking] = useSound(PomodoroTicking, { volume: 0.2 });
 
   useEffect(() => {
     if (state.isRunning === "start") {
@@ -51,7 +51,7 @@ export default function App() {
       </h1>
       <Timers state={state} dispatch={dispatch} />
       <Clock state={state} dispatch={dispatch} />
-      <p id="credits">by LazaroFilm - last update Oct 16 4:43 PM</p>
+      <p id="credits">by LazaroFilm - last update Oct 17 4:35 PM</p>
     </div>
   );
 }
