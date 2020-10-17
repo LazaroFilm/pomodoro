@@ -4,6 +4,9 @@ import "./App.css";
 import Clock from "./Clock";
 import Timers from "./Timers";
 import reducer from "./reducer";
+import useSound from "use-sound";
+import PomodoroRing from "./sounds/PomodoroRing.m4a";
+import PomodoroTicking from "./sounds/PomodoroTicking.m4a";
 
 export default function App() {
   const initialState = {
@@ -18,8 +21,12 @@ export default function App() {
 
   const [intervalID, setInterID] = useState();
 
+  const [playRing] = useSound(PomodoroRing);
+  const [playTicking] = useSound(PomodoroTicking, { volume: 0.1 });
+
   useEffect(() => {
     if (state.isRunning === "start") {
+      playTicking();
       let letintervalID = setInterval(() => {
         dispatch({ type: "tic-toc" });
       }, 1000);
@@ -33,6 +40,7 @@ export default function App() {
     if (state.clockTime[0] <= 0 && state.clockTime[1] === 0) {
       console.log(`DING DING DING!`);
       clearInterval(intervalID);
+      playRing();
     }
   }, [state.clockTime]);
 
