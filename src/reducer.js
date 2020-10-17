@@ -5,7 +5,7 @@ function reducer(state, action) {
   switch (action.type) {
     case "session-decrement":
       if (state.sessionTime > 0) {
-        if (state.started) {
+        if (state.isRunning) {
           return {
             ...state,
             sessionTime: state.sessionTime - 1,
@@ -24,7 +24,7 @@ function reducer(state, action) {
         return { ...state };
       }
     case "session-increment":
-      if (state.started) {
+      if (state.isRunning) {
         return {
           ...state,
           sessionTime: state.sessionTime + 1,
@@ -49,22 +49,19 @@ function reducer(state, action) {
       return { ...state, breakTime: state.breakTime + 1 };
     case "reset":
       return {
-        started: false,
+        isRunning: false,
         sessionTime: 25,
         breakTime: 5,
         clockTime: [25, 0],
         test: "initial",
       };
     case "start-stop":
-      if (state.started) {
+      if (state.isRunning === "start") {
         console.log("stopping now 🛑");
-        clearInterval();
-        return { ...state, started: false, test: "Stopping" };
+        return { ...state, isRunning: "stop", test: "Stopping" };
       } else {
         console.log("starting now ⏲️");
-        console.log("keeps going? ");
-        console.log(state);
-        return { ...state, started: true, test: "starting" };
+        return { ...state, isRunning: "start", test: "starting" };
       }
     case "tic-toc":
       if (state.clockTime[1] === 0) {

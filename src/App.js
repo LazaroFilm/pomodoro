@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import pomodoro from "./pomodoro.png";
 import "./App.css";
 import Clock from "./Clock";
@@ -7,7 +7,7 @@ import reducer from "./reducer";
 
 export default function App() {
   const initialState = {
-    started: false,
+    isRunning: "stop",
     sessionTime: 25,
     breakTime: 5,
     clockTime: [25, 0],
@@ -15,9 +15,21 @@ export default function App() {
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const Start = (state) => {
-    return state.started ? "STARTED" : "Stopped";
-  };
+  useEffect(() => {
+    console.log(`isRunning changed to: ${state.isRunning}`);
+    let ticToc;
+    console.log(`This is: ${ticToc}`);
+    if (state.isRunning === "start") {
+      ticToc = setInterval(() => {
+        console.log(`This is: ${ticToc}`);
+        console.log(`tic toc`);
+        dispatch({ type: "tic-toc" });
+      }, 1000);
+    } else {
+      console.log("clearInterval stop!");
+      clearInterval(ticToc);
+    }
+  }, [state.isRunning]);
 
   return (
     <div className="App">
@@ -28,7 +40,8 @@ export default function App() {
       <Clock state={state} dispatch={dispatch} />
       <p id="credits">by LazaroFilm - last update Oct 16 4:43 PM</p>
       <p>hello</p>
-      <p>{Start(state)}</p>
+      <p>{state.test}</p>
+      {/* <p>{Start(state)}</p> */}
     </div>
   );
 }

@@ -3,18 +3,21 @@ import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 
-const StartStop = (state, dispatch) => {
-  var ticToc;
-  console.log(`the counter started? ${state.started}`);
-  if (!state.started) {
-    ticToc = setInterval(() => {
-      console.log(`the counter started? ${state.started}`);
-      dispatch({ type: "tic-toc" });
-    }, 1000);
-  } else {
-    clearInterval(ticToc);
-  }
-};
+// const StartStop = (state, dispatch, stopNow) => {
+//   let ticToc;
+//   console.log(`This is: ${ticToc}`);
+//   if (ticToc) {
+//     console.log("clearInterval stop!");
+//     clearInterval(ticToc);
+//     ticToc = undefined;
+//   } else {
+//     ticToc = setInterval(() => {
+//       console.log(`This is: ${ticToc}`);
+//       console.log(`tic toc`);
+//       dispatch({ type: "tic-toc" });
+//     }, 1000);
+//   }
+// };
 
 function Clock({ state, dispatch }) {
   return (
@@ -41,7 +44,7 @@ function Clock({ state, dispatch }) {
             role="button"
             onClick={() => {
               dispatch({ type: "start-stop" });
-              StartStop(state, dispatch);
+              // StartStop(state, dispatch, "start");
             }}
           >
             <FontAwesomeIcon icon={faPlay} /> <FontAwesomeIcon icon={faPause} />
@@ -53,6 +56,14 @@ function Clock({ state, dispatch }) {
             onClick={() => dispatch({ type: "reset" })}
           >
             <FontAwesomeIcon icon={faRedoAlt} />
+          </Button>
+          <Button
+            onClick={() => {
+              // StartStop(state, dispatch, "stop");
+            }}
+          >
+            {" "}
+            TEST{" "}
           </Button>
         </div>
       </div>

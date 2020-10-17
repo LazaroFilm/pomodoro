@@ -5,6 +5,10 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
+// PROJECTOR SELECTOR FOR EXTERNAL TEST SCRIPT:
+// eslint-disable-next-line no-unused-vars
+const projectName = "25-5-clock";
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
