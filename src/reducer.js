@@ -44,10 +44,12 @@ function reducer(state, action) {
     case "reset":
       return {
         isRunning: "stop",
+        runningType: "Work Hard!",
         sessionTime: 25,
         breakTime: 5,
         clockTime: [25, 0],
         test: "initial",
+        intervalID: 0,
       };
     case "start-stop":
       if (state.isRunning === "start") {
@@ -64,6 +66,20 @@ function reducer(state, action) {
         return {
           ...state,
           clockTime: [state.clockTime[0], state.clockTime[1] - 1],
+        };
+      }
+    case "timer-end":
+      if (state.runningType === "Work Hard!") {
+        return {
+          ...state,
+          runningType: "Play Hard!",
+          clockTime: [state.breakTime, 0],
+        };
+      } else {
+        return {
+          ...state,
+          runningType: "Work Hard!",
+          clockTime: [state.sessionTime, 0],
         };
       }
     default:

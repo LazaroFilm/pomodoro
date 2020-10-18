@@ -11,11 +11,12 @@ import PomodoroTicking from "./sounds/PomodoroTicking.m4a";
 export default function App() {
   const initialState = {
     isRunning: "stop",
+    runningType: "Work Hard!",
     sessionTime: 25,
     breakTime: 5,
     clockTime: [25, 0],
     test: "initial",
-    intervalID: "testing",
+    intervalID: 0,
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -24,6 +25,7 @@ export default function App() {
   const [playRing] = useSound(PomodoroRing);
   const [playTicking] = useSound(PomodoroTicking, { volume: 0.2 });
 
+  //* Counting down
   useEffect(() => {
     if (state.isRunning === "start") {
       playTicking();
@@ -36,13 +38,24 @@ export default function App() {
     }
   }, [state.isRunning]);
 
+  //* When timer runs out
   useEffect(() => {
     if (state.clockTime[0] <= 0 && state.clockTime[1] === 0) {
       console.log(`DING DING DING!`);
-      clearInterval(intervalID);
       playRing();
+      dispatch({ type: "timer-end" });
     }
   }, [state.clockTime]);
+
+  useEffect(() => {
+    console.log(state.runningType);
+    document.getElementById("timer-label").innerHTML = state.runningType;
+    if (state.runningType === "Work Hard!") {
+      document
+        .getElementById("timer-label")
+        .setAttribute("className", "lead alert badge-primary display-4");
+    }
+  }, [state.runningType]);
 
   return (
     <div className="App">

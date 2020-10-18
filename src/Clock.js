@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 
-function Clock({ state, dispatch }) {
+function Clock({ state, dispatch, Banner }) {
   return (
     <div>
       <div className="jumbotron text-center mt-2 py-3">
@@ -13,8 +13,9 @@ function Clock({ state, dispatch }) {
             ? `0${state.clockTime[1]}`
             : state.clockTime[1]}
         </h1>
+        {/* <Banner /> */}
         <div className="lead alert badge-primary display-4" id="timer-label">
-          <strong>Work Hard!</strong>
+          <strong>{state.runningType}</strong>
         </div>
         <hr className="my-3" />
         <div
