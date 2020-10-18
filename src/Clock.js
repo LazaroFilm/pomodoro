@@ -8,14 +8,17 @@ function Clock({ state, dispatch, Banner }) {
     <div>
       <div className="jumbotron text-center mt-2 py-3">
         <h1 className="display-2" id="time-left">
-          {state.clockTime[0]}:
+          {state.clockTime[0].toString().length === 1
+            ? `0${state.clockTime[0]}`
+            : state.clockTime[0]}
+          :
           {state.clockTime[1].toString().length === 1
             ? `0${state.clockTime[1]}`
             : state.clockTime[1]}
         </h1>
         {/* <Banner /> */}
-        <div className="lead alert badge-primary display-4" id="timer-label">
-          <strong>{state.runningType}</strong>
+        <div className="lead alert badge-secondary display-4" id="timer-label">
+          <strong>Pomodoro</strong>
         </div>
         <hr className="my-3" />
         <div

@@ -2,48 +2,52 @@ function reducer(state, action) {
   // console.log(state);
   switch (action.type) {
     case "session-decrement":
-      if (state.sessionTime > 0) {
-        if (state.isRunning === "start") {
+      if (state.sessionTime > 1) {
+        if (state.isRunning) {
           return { ...state };
         } else {
-          return (
-            state.sessionTime > 0 && {
-              ...state,
-              sessionTime: state.sessionTime - 1,
-              clockTime: [state.sessionTime - 1, state.clockTime[1]],
-            }
-          );
+          return {
+            ...state,
+            sessionTime: state.sessionTime - 1,
+            clockTime: [state.sessionTime - 1, state.clockTime[1]],
+          };
         }
       } else {
         return { ...state };
       }
     case "session-increment":
-      if (state.isRunning === "start") {
+      if (state.isRunning) {
         return { ...state };
-      } else {
+      } else if (state.sessionTime < 60) {
         return {
           ...state,
           sessionTime: state.sessionTime + 1,
           clockTime: [state.sessionTime + 1, state.clockTime[1]],
         };
+      } else {
+        return {
+          ...state,
+        };
       }
     case "break-decrement":
-      if (state.isRunning === "start") {
+      if (state.isRunning) {
         return { ...state };
-      } else if (state.breakTime > 0) {
+      } else if (state.breakTime > 1) {
         return { ...state, breakTime: state.breakTime - 1 };
       } else {
         return { ...state };
       }
     case "break-increment":
-      if (state.isRunning === "start") {
+      if (state.isRunning) {
         return { ...state };
-      } else {
+      } else if (state.breakTime < 60) {
         return { ...state, breakTime: state.breakTime + 1 };
+      } else {
+        return { ...state };
       }
     case "reset":
       return {
-        isRunning: "stop",
+        isRunning: false,
         runningType: "Work Hard!",
         sessionTime: 25,
         breakTime: 5,
@@ -52,12 +56,17 @@ function reducer(state, action) {
         intervalID: 0,
       };
     case "start-stop":
-      if (state.isRunning === "start") {
+      if (state.isRunning) {
         console.log("stopping now 🛑");
-        return { ...state, isRunning: "stop" };
+        return { ...state, isRunning: false };
       } else {
         console.log("starting now ⏲️");
-        return { ...state, isRunning: "start" };
+        console.log(state.runningType);
+        if (state.runningType === "Pomodoro") {
+          console.log("not pomodoro");
+          return { ...state, isRunning: true, runningType: "Work Hard!" };
+        }
+        return { ...state, isRunning: true };
       }
     case "tic-toc":
       if (state.clockTime[1] === 0) {
@@ -69,16 +78,16 @@ function reducer(state, action) {
         };
       }
     case "timer-end":
-      if (state.runningType === "Work Hard!") {
+      if (state.runningType === "Play Hard!") {
         return {
           ...state,
-          runningType: "Play Hard!",
+          runningType: "Work Hard!",
           clockTime: [state.breakTime, 0],
         };
       } else {
         return {
           ...state,
-          runningType: "Work Hard!",
+          runningType: "Play Hard!",
           clockTime: [state.sessionTime, 0],
         };
       }

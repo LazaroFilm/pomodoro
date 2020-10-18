@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect, useRef } from "react";
 import pomodoro from "./pomodoro.png";
 import "./App.css";
 import Clock from "./Clock";
@@ -10,7 +10,7 @@ import PomodoroTicking from "./sounds/PomodoroTicking.m4a";
 
 export default function App() {
   const initialState = {
-    isRunning: "stop",
+    isRunning: false,
     runningType: "Work Hard!",
     sessionTime: 25,
     breakTime: 5,
@@ -20,23 +20,36 @@ export default function App() {
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [intervalID, setInterID] = useState();
+  // const [intervalID, setInterID] = useState();
 
   const [playRing] = useSound(PomodoroRing);
   const [playTicking] = useSound(PomodoroTicking, { volume: 0.2 });
 
   //* Counting down
+  let intervalID;
   useEffect(() => {
-    if (state.isRunning === "start") {
+    if (state.isRunning) {
       playTicking();
-      let letintervalID = setInterval(() => {
+      intervalID = setInterval(() => {
         dispatch({ type: "tic-toc" });
       }, 1000);
-      setInterID(letintervalID);
-    } else if (state.isRunning === "stop") {
-      clearInterval(intervalID);
     }
+    return () => {
+      clearInterval(intervalID);
+    };
   }, [state.isRunning]);
+
+  // useEffect(() => {
+  //   if (state.isRunning === "start") {
+  //     playTicking();
+  //     let letintervalID = setInterval(() => {
+  //       dispatch({ type: "tic-toc" });
+  //     }, 1000);
+  //     setInterID(letintervalID);
+  //   } else if (state.isRunning === "stop") {
+  //     clearInterval(intervalID);
+  //   }
+  // }, [state.isRunning]);
 
   //* When timer runs out
   useEffect(() => {
@@ -48,13 +61,14 @@ export default function App() {
   }, [state.clockTime]);
 
   useEffect(() => {
+    console.log("hello?");
     console.log(state.runningType);
     document.getElementById("timer-label").innerHTML = state.runningType;
-    if (state.runningType === "Work Hard!") {
-      document
-        .getElementById("timer-label")
-        .setAttribute("className", "lead alert badge-primary display-4");
-    }
+    // if (state.runningType === "Work Hard!") {
+    //   document
+    //     .getElementById("timer-label")
+    //     .setAttribute("className", "lead alert badge-primary display-4");
+    // }
   }, [state.runningType]);
 
   return (
