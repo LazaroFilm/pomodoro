@@ -82,13 +82,13 @@ function reducer(state, action) {
         return {
           ...state,
           runningType: "Work Hard!",
-          clockTime: [state.breakTime, 0],
+          clockTime: [state.sessionTime, 0],
         };
       } else {
         return {
           ...state,
           runningType: "Play Hard!",
-          clockTime: [state.sessionTime, 0],
+          clockTime: [state.breakTime, 0],
         };
       }
     default:

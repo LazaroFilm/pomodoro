@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect, useRef } from "react";
+import React, { useReducer, useEffect, useRef } from "react";
 import pomodoro from "./pomodoro.png";
 import "./App.css";
 import Clock from "./Clock";
@@ -11,7 +11,7 @@ import PomodoroTicking from "./sounds/PomodoroTicking.m4a";
 export default function App() {
   const initialState = {
     isRunning: false,
-    runningType: "Work Hard!",
+    runningType: "Play Hard!",
     sessionTime: 25,
     breakTime: 5,
     clockTime: [25, 0],
@@ -20,56 +20,36 @@ export default function App() {
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // const [intervalID, setInterID] = useState();
-
   const [playRing] = useSound(PomodoroRing);
   const [playTicking] = useSound(PomodoroTicking, { volume: 0.2 });
 
   //* Counting down
-  let intervalID;
   useEffect(() => {
+    let intervalID;
     if (state.isRunning) {
       playTicking();
       intervalID = setInterval(() => {
         dispatch({ type: "tic-toc" });
-      }, 1000);
+      }, 10);
     }
     return () => {
       clearInterval(intervalID);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isRunning]);
 
-  // useEffect(() => {
-  //   if (state.isRunning === "start") {
-  //     playTicking();
-  //     let letintervalID = setInterval(() => {
-  //       dispatch({ type: "tic-toc" });
-  //     }, 1000);
-  //     setInterID(letintervalID);
-  //   } else if (state.isRunning === "stop") {
-  //     clearInterval(intervalID);
-  //   }
-  // }, [state.isRunning]);
-
   //* When timer runs out
+  const didMountRef = useRef(false);
   useEffect(() => {
-    if (state.clockTime[0] <= 0 && state.clockTime[1] === 0) {
-      console.log(`DING DING DING!`);
-      playRing();
-      dispatch({ type: "timer-end" });
-    }
+    if (didMountRef.current) {
+      if (state.clockTime[0] <= 0 && state.clockTime[1] === 0) {
+        console.log(`DING DING DING!`);
+        playRing();
+        dispatch({ type: "timer-end" });
+      }
+    } else didMountRef.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.clockTime]);
-
-  useEffect(() => {
-    console.log("hello?");
-    console.log(state.runningType);
-    document.getElementById("timer-label").innerHTML = state.runningType;
-    // if (state.runningType === "Work Hard!") {
-    //   document
-    //     .getElementById("timer-label")
-    //     .setAttribute("className", "lead alert badge-primary display-4");
-    // }
-  }, [state.runningType]);
 
   return (
     <div className="App">
@@ -79,6 +59,12 @@ export default function App() {
       <Timers state={state} dispatch={dispatch} />
       <Clock state={state} dispatch={dispatch} />
       <p id="credits">by LazaroFilm - last update Oct 17 4:35 PM</p>
+      {/* <audio
+        className="clip"
+        id={soundID}
+        src={soundSource}
+        type="audio/mpeg"
+      ></audio> */}
     </div>
   );
 }
