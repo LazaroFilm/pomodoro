@@ -7,3 +7,17 @@
   color: gray;
   font-size: x-small;
 }
+
+#time-left {
+  font-family: "Source Code Pro", monospace;
+  font-weight: 300;
+}
+
+#time-selector {
+  font-family: "Source Code Pro", monospace;
+  font-weight: 700;
+}
+
+#timer-label {
+  font-weight: bold;
+}

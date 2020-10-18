@@ -4,22 +4,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 
 function Clock({ state, dispatch }) {
+  // * Update Timer Label
   const [bannerClass, setBannerClass] = useState(
-    "lead alert badge-success display-4"
+    "lead alert badge-secondary display-4"
   );
+  const [bannerTitle, setBannerTitle] = useState("session");
   useEffect(() => {
-    if (state.runningType === "Pomodoro") {
+    if (state.runningType === "init") {
       setBannerClass("lead alert badge-secondary display-4");
-    } else if (state.runningType === "Work Hard!") {
+      setBannerTitle("Session");
+    } else if (state.runningType === "session") {
       setBannerClass("lead alert badge-primary display-4");
-    } else if (state.runningType === "Play Hard!") {
+      setBannerTitle("Session");
+    } else if (state.runningType === "break") {
       setBannerClass("lead alert badge-success display-4");
+      setBannerTitle("Break");
     }
   }, [state.runningType]);
+
   return (
     <div>
       <div className="jumbotron text-center mt-2 py-3">
         <h1 className="display-2" id="time-left">
+          {/* adds zeros to display as mm:ss */}
           {state.clockTime[0].toString().length === 1
             ? `0${state.clockTime[0]}`
             : state.clockTime[0]}
@@ -29,12 +36,8 @@ function Clock({ state, dispatch }) {
             : state.clockTime[1]}
         </h1>
         <div className={bannerClass} id="timer-label">
-          <strong>{state.runningType}</strong>
+          {bannerTitle}
         </div>
-        {/* <Banner state={state} dispatch={dispatch} /> */}
-        {/* <div className="lead alert badge-secondary display-4" id="timer-label">
-          <strong>Pomodoro</strong>
-        </div> */}
         <hr className="my-3" />
         <div
           className="btn-group mt-2 lead"
@@ -55,7 +58,12 @@ function Clock({ state, dispatch }) {
             className="btn btn-secondary btn-lg"
             id="reset"
             role="button"
-            onClick={() => dispatch({ type: "reset" })}
+            onClick={() => {
+              dispatch({ type: "reset" });
+              // * HTML Audio
+              document.getElementById("beep").pause();
+              document.getElementById("beep").currentTime = 0;
+            }}
           >
             <FontAwesomeIcon icon={faRedoAlt} />
           </Button>
@@ -66,4 +74,3 @@ function Clock({ state, dispatch }) {
 }
 
 export default Clock;
-// export { Banner };

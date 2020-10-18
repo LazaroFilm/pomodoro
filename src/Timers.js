@@ -11,7 +11,7 @@ function Timers({ state, dispatch }) {
           <div id="session-label" className="alert alert-primary" role="alert">
             <div>Session:</div>
             <div className="lead">
-              <div className="badge badge-primary">
+              <div id="time-selector" className="badge badge-primary">
                 <span id="session-length">{state.sessionTime}</span> min
               </div>
             </div>
@@ -41,7 +41,7 @@ function Timers({ state, dispatch }) {
           <div id="break-label" className="alert alert-success" role="alert">
             <div>Break:</div>
             <div className="lead">
-              <div className="badge badge-success">
+              <div id="time-selector" className="badge badge-success">
                 <span id="break-length">{state.breakTime}</span> min
               </div>
             </div>

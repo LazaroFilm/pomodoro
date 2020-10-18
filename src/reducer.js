@@ -1,6 +1,7 @@
 function reducer(state, action) {
   // console.log(state);
   switch (action.type) {
+    // * Timer buttons
     case "session-decrement":
       if (state.sessionTime > 1) {
         if (state.isRunning) {
@@ -45,10 +46,12 @@ function reducer(state, action) {
       } else {
         return { ...state };
       }
+
+    // * Clock buttons
     case "reset":
       return {
         isRunning: false,
-        runningType: "Work Hard!",
+        runningType: "init",
         sessionTime: 25,
         breakTime: 5,
         clockTime: [25, 0],
@@ -57,17 +60,17 @@ function reducer(state, action) {
       };
     case "start-stop":
       if (state.isRunning) {
-        console.log("stopping now 🛑");
+        // console.log("stopping now 🛑");
         return { ...state, isRunning: false };
       } else {
-        console.log("starting now ⏲️");
-        console.log(state.runningType);
-        if (state.runningType === "Pomodoro") {
-          console.log("not pomodoro");
-          return { ...state, isRunning: true, runningType: "Work Hard!" };
+        // console.log("starting now ⏲️");
+        if (state.runningType === "init") {
+          return { ...state, isRunning: true, runningType: "session" };
         }
         return { ...state, isRunning: true };
       }
+
+    // * Countdown
     case "tic-toc":
       if (state.clockTime[1] === 0) {
         return { ...state, clockTime: [state.clockTime[0] - 1, 59] };
@@ -78,16 +81,16 @@ function reducer(state, action) {
         };
       }
     case "timer-end":
-      if (state.runningType === "Play Hard!") {
+      if (state.runningType === "break") {
         return {
           ...state,
-          runningType: "Work Hard!",
+          runningType: "session",
           clockTime: [state.sessionTime, 0],
         };
       } else {
         return {
           ...state,
-          runningType: "Play Hard!",
+          runningType: "break",
           clockTime: [state.breakTime, 0],
         };
       }
