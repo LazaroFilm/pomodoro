@@ -60,6 +60,7 @@ function Clock({ state, dispatch }) {
             role="button"
             onClick={() => {
               dispatch({ type: "reset" });
+              setBannerTitle("pomodoro");
               // * HTML Audio
               document.getElementById("beep").pause();
               document.getElementById("beep").currentTime = 0;
