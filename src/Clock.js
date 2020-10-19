@@ -62,8 +62,8 @@ function Clock({ state, dispatch }) {
               dispatch({ type: "reset" });
               setBannerTitle("pomodoro");
               // * HTML Audio
-              document.getElementById("beep").pause();
-              document.getElementById("beep").currentTime = 0;
+              // document.getElementById("beep").pause();
+              // document.getElementById("beep").currentTime = 0;
             }}
           >
             <FontAwesomeIcon icon={faRedoAlt} />

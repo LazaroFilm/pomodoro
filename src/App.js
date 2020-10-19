@@ -5,7 +5,7 @@ import Clock from "./Clock";
 import Timers from "./Timers";
 import reducer from "./reducer";
 import useSound from "use-sound";
-// import PomodoroRing from "./sounds/PomodoroRing.m4a";
+import PomodoroRing from "./sounds/PomodoroRing.m4a";
 import PomodoroTicking from "./sounds/PomodoroTicking.m4a";
 
 export default function App() {
@@ -21,14 +21,14 @@ export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   // * Audio
-  // const [playRing] = useSound(PomodoroRing);
+  const [playRing] = useSound(PomodoroRing);
   const [playTicking] = useSound(PomodoroTicking, { volume: 0.2 });
 
   // * Counting down
   useEffect(() => {
     let intervalID;
     if (state.isRunning) {
-      console.log("Ticking 🎵");
+      // console.log("Ticking 🎵");
       playTicking();
       intervalID = setInterval(() => {
         dispatch({ type: "tic-toc" });
@@ -45,11 +45,11 @@ export default function App() {
   useEffect(() => {
     if (didMountRef.current) {
       if (state.clockTime[0] <= 0 && state.clockTime[1] === 0) {
-        console.log("Ring 🎵");
+        // console.log("Ring 🎵");
         // * HTML Audio
-        document.getElementById("beep").currentTime = 0;
-        document.getElementById("beep").play();
-        // playRing();
+        // document.getElementById("beep").currentTime = 0;
+        // document.getElementById("beep").play();
+        playRing();
         dispatch({ type: "timer-end" });
       }
     } else didMountRef.current = true;
@@ -63,8 +63,11 @@ export default function App() {
       </h1>
       <Timers state={state} dispatch={dispatch} />
       <Clock state={state} dispatch={dispatch} />
-      <p id="credits">by LazaroFilm - last update Oct 18 8:54 PM</p>
-
+      <p id="credits">
+        by <a href="https://www.victorlazaro.com/">Victor Lazaro</a>
+        <br />
+        see it <a href="https://github.com/LazaroFilm/pomodoro">on GitHub</a>
+      </p>
       {/* HTML Audio */}
       <audio
         id="beep"
