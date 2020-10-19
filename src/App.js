@@ -63,7 +63,7 @@ export default function App() {
       </h1>
       <Timers state={state} dispatch={dispatch} />
       <Clock state={state} dispatch={dispatch} />
-      <p id="credits">by LazaroFilm - last update Oct 18 5:29 PM</p>
+      <p id="credits">by LazaroFilm - last update Oct 18 8:54 PM</p>
 
       {/* HTML Audio */}
       <audio

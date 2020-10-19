@@ -12,7 +12,7 @@ function Clock({ state, dispatch }) {
   useEffect(() => {
     if (state.runningType === "init") {
       setBannerClass("lead alert badge-secondary display-4");
-      setBannerTitle("Session");
+      setBannerTitle("pomodoro");
     } else if (state.runningType === "session") {
       setBannerClass("lead alert badge-primary display-4");
       setBannerTitle("Session");
